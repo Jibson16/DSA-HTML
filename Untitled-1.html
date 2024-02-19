@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Explorer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .city {
+      width: 45%;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .city h2 {
+      text-align: center;
+    }
+
+    .map {
+      margin-bottom: 20px;
+    }
+
+    .weather {
+      text-align: center;
+    }
+
+    .weather h3 {
+      margin-bottom: 10px;
+    }
+
+    .weather p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="city">
+      <h2>Liverpool</h2>
+      <div class="map">
+        <!-- Embedded map code for Liverpool -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23713.72359971561!2d-2.980202507167115!3d53.40837175891677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487b21220ca06e7b%3A0xc3ae5e3c68a24671!2sLiverpool!5e0!3m2!1sen!2suk!4v1645135008341!5m2!1sen!2suk" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+      <div class="weather">
+        <!-- Weather data for Liverpool -->
+        <h3>Weather</h3>
+        <div id="weatherLiverpool"></div>
+      </div>
+    </div>
+    <div class="city">
+      <h2>Rio</h2>
+      <div class="map">
+        <!-- Embedded map code for Rio -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7314.052597305828!2d-43.20949437779534!3d-22.908993790010593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f5dcfdfbd319%3A0x80a0fd91a1a27d0!2sRio%20de%20Janeiro%2C%20State%20of%20Rio%20de%20Janeiro%2C%20Brazil!5e0!3m2!1sen!2suk!4v1645135033125!5m2!1sen!2suk" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+      <div class="weather">
+        <!-- Weather data for Rio -->
+        <h3>Weather</h3>
+        <div id="weatherRio"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fetch weather data for Liverpool
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=53.4106&longitude=-2.9779&hourly=temperature_2m')
+      .then(response => response.json())
+      .then(data => {
+        const weatherLiverpool = document.getElementById('weatherLiverpool');
+        const temperatureLiverpool = data.hourly.temperature_2m[0].value;
+        weatherLiverpool.innerHTML = `
+          <p>Temperature: ${temperatureLiverpool}°C</p>
+        `;
+      })
+      .catch(error => {
+        console.error('Error fetching weather data for Liverpool:', error);
+      });
+
+    // Fetch weather data for Rio
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=-22.9064&longitude=-43.1822&hourly=temperature_2m')
+      .then(response => response.json())
+      .then(data => {
+        const weatherRio = document.getElementById('weatherRio');
+        const temperatureRio = data.hourly.temperature_2m[0].value;
+        weatherRio.innerHTML = `
+          <p>Temperature: ${temperatureRio}°C</p>
+        `;
+      })
+      .catch(error => {
+        console.error('Error fetching weather data for Rio:', error);
+      });
+  </script>
+</body>
+</html>
